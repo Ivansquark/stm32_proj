@@ -3,7 +3,7 @@
     [
         {
             "name": "h7_c_cpp_properties",
-            "compilerPath": "/usr/bin/gcc",
+            "compilerPath": "C:/Program Files (x86)/GNUArmEmbeddedToolchain/9_2020-q2-update/bin/arm-none-eabi-gcc",
             "includePath": 
             [
                 "${workspaceRoot}/inc/",

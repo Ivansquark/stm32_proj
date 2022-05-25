@@ -30,18 +30,23 @@ CPPFLAGS = -mthumb -mcpu=cortex-m7 -c -g -O0 -Wall \
 	-mfpu=fpv5-d16 -mfloat-abi=hard -fno-exceptions \
 	-fno-math-errno -ffunction-sections -fdata-sections -u_printf_float \
 	-fno-rtti --specs=nosys.specs --specs=nano.specs -fno-common -D"assert_param(x)=" \
-	#-L"C:\Program Files (x86)\GNUArmEmbeddedToolchain\9_2020-q2-update\lib\gcc\arm-none-eabi\9.3.1\thumb\v7e-m+dp\hard"
+	-L"C:\Program Files (x86)\GNUArmEmbeddedToolchain\9_2020-q2-update\lib\gcc\arm-none-eabi\9.3.1\thumb\v7e-m+dp\hard"
 
 CFLAGS = -mthumb -mcpu=cortex-m7 -c -g -O0 -Wall \
 	-mfpu=fpv5-d16 -mfloat-abi=hard \
 	-fno-math-errno -ffunction-sections -fdata-sections -u_printf_float \
 	--specs=nosys.specs --specs=nano.specs -fno-common -D"assert_param(x)=" \
-	#-L"C:\Program Files (x86)\GNUArmEmbeddedToolchain\9_2020-q2-update\lib\gcc\arm-none-eabi\9.3.1\thumb\v7e-m+dp\hard"	 
+	-L"C:\Program Files (x86)\GNUArmEmbeddedToolchain\9_2020-q2-update\lib\gcc\arm-none-eabi\9.3.1\thumb\v7e-m+dp\hard"	 
 
 LCPPFLAGS = -mcpu=cortex-m7 -march=armv7e-m -mthumb -g -nostartfiles -lm -lc -lstdc++ \
 		 -mfloat-abi=hard  -mfpu=fpv5-d16 -specs=nosys.specs -specs=nano.specs \
-		 -fno-use-cxa-atexit -Xlinker -Map=$(BLD)main.map
-#-z muldefs  -u_printf_float 
+		 -fno-use-cxa-atexit -Xlinker -Map=$(BLD)main.map \
+		 -L"C:\Program Files (x86)\GNUArmEmbeddedToolchain\9_2020-q2-update\arm-none-eabi\lib\thumb\v7e-m+dp\hard" \
+		 -L"C:\Program Files (x86)\GNUArmEmbeddedToolchain\9_2020-q2-update\lib\gcc\arm-none-eabi\9.3.1\thumb\v7e-m+dp\hard"
+		 #-L"C:/Program Files (x86)/GNUArmEmbeddedToolchain/9_2020-q2-update/arm-none-eabi/" \
+		 -L"C:\Program Files (x86)\GNUArmEmbeddedToolchain\9_2020-q2-update\lib\gcc\arm-none-eabi\9.3.1" \
+		 -L"C:\Program Files (x86)\GNUArmEmbeddedToolchain\9_2020-q2-update\arm-none-eabi\lib" \
+		 #-z muldefs  -u_printf_float 
 
 load: $(BLD)main.bin
 	openocd -f lib/stlink.cfg -f lib/stm32h7x.cfg -c "program $(BLD)main.bin verify reset exit 0x08000000"
