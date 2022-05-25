@@ -1,0 +1,29 @@
+#ifndef MAIN_H_
+#define MAIN_H_
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+
+#include "stm32h7xx_hal.h"
+
+extern uint32_t FREQUENCY;
+void Error_Handler(void);
+//uint32_t get_fattime (void);
+
+#ifdef __cplusplus
+}
+#endif
+
+
+//#define __cplusplus 2017
+//void *__dso_handle = nullptr; // dummy "guard" that is used to identify dynamic shared objects during global destruction. (in fini in startup.cpp)
+//extern "C" void _exit(int i) {while (1);}
+#endif //MAIN_H

@@ -1,0 +1,10 @@
+{
+    "cortex-debug.armToolchainPath": "/usr/bin/",
+    "cortex-debug.openocdPath": "/usr/bin/openocd",
+    "files.associations": {
+        "cstdint": "cpp",
+        "cstdio": "cpp",
+        "cstddef": "cpp",
+        "type_traits": "cpp"
+    }
+}

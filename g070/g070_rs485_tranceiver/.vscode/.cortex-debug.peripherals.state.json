@@ -1,0 +1,1 @@
+[{"node":"GPIOA","expanded":true,"format":0,"pinned":false},{"node":"GPIOA.MODER","expanded":true,"format":0},{"node":"USART2","expanded":true,"format":0,"pinned":false},{"node":"USART2.CR1","expanded":true,"format":0},{"node":"USART2.ISR","expanded":true,"format":0},{"node":"USART2.TDR","expanded":true,"format":0},{"node":"USART4.ISR","expanded":true,"format":0}]

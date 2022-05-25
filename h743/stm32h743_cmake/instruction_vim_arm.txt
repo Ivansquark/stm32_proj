@@ -1,0 +1,69 @@
+Инструкция по использованию VIM для разработки под микроконтроллеры ARM
+//+---------------------------------+
+//|<<<   Установка отладчика     >>>|
+//+---------------------------------+
+1. Установить парсер svd для gdb
+https://github.com/posborne/cmsis-svd/tree/master/python
+pip install -U cmsis-svd
+
+2. Установить пакет соединяющий gdb и svd
+git clone https://github.com/1udo6arre/svd-tools
+pip install terminaltables
+
+3. Установить или собрать из исходников последнюю версию OpenOCD  
+sudo apt install openocd
+
+4. Установить gdb-multiarch
+sudo apt install gdb-multiarch
+
+4. Добавить в каталоге проекта .gdbinit
+target remote :50000
+source "$PATH_TO_SVD_TOOL"/gdb-svd.py
+svd lib/STM32H743x.svd
+
+5. Добавить путь локального .gdbinit в ~/.gdbinit (или set auto-load safe-path / в ~/.gdbinit)
+add-auto-load-safe-path /home/debian/embedded/stm32/vim/Control/.gdbinit
+Или написать и сделать исполняемым скрипт gdb_script
+#! /bin/sh
+grep -q -F "add-auto-load-safe-path `pwd`/.gdbinit" ~/.gdbinit || echo "add-auto-load-safe-path `pwd`/.gdbinit" >> ~/.gdbinit
+gdb-multiarch build/main.elf
+
+6. Запустить в папке проекта в терминале
+"/usr/bin/openocd" "-c" "gdb_port 50000" "-s" "/usr/share/openocd/scripts" "-f" "./lib/stlink.cfg" "-f" "./lib/stm32h7x.cfg"
+В другом терминале в папке проекта
+./gdb_script
+
+7. Команды gdb:
+(gdb) help svd
+(gdb) layout src asm stack
+
+8   
+#! /bin/sh
+function_to_fork() {
+    sleep 1
+    echo "GDB::::"   
+    konsole -e gdb-multiarch build/main.elf
+}
+
+function_to_fork &
+# ... execution continues in parent process ..
+
+echo "OPENOCD::::"
+"/usr/bin/openocd" "-c" "gdb_port 50000" "-s" "/usr/share/openocd/scripts" "-f" "./lib/stlink.cfg" "-f" "./lib/stm32h7x.cfg" 
+
+
+Шпора по ВИМ    https://rigovanov.ru/vim/
+
++-----------------------------------------------------+
+|                  GDB with OPENOCD                   |
++----------------------------+------------------------+
+| (gdb) monitor reset halt   |   // reset             |
++----------------------------+------------------------+
+| (gdb) i b                  |   // info breaks       |
++----------------------------+------------------------+
+| (gdb) si                   |   // step instruction  |
++----------------------------+------------------------+
+
+
+clangd:
+    запустить скрипт build_clangd_dependencies

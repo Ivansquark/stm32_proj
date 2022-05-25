@@ -1,0 +1,11 @@
+{
+    "cortex-debug.armToolchainPath": "/usr/bin/gdb-multiarch",
+    "cortex-debug.openocdPath": "/usr/bin/openocd",
+    "files.associations": {
+        "cstdlib": "cpp",
+        "cmath": "cpp",
+        "*.tcc": "cpp",
+        "main.h": "cpp",
+        "cstdint": "c"
+    }
+}

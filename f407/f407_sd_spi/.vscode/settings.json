@@ -1,0 +1,11 @@
+{
+    "cortex-debug.armToolchainPath": "C:\\SysGCC\\arm-eabi\\bin",
+    "cortex-debug.openocdPath": "C:\\OpenOCD\\bin\\openocd",
+    "files.associations": {
+        "cstdint": "cpp",
+        "cstdio": "cpp",
+        "cstddef": "cpp",
+        "type_traits": "cpp",
+        "internet": "cpp"
+    }
+}

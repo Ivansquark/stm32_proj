@@ -1,0 +1,14 @@
+{
+    "cortex-debug.armToolchainPath": "C:\\SysGCC\\arm-eabi\\bin\\",
+    "cortex-debug.openocdPath": "C:\\OpenOCD\\bin\\openocd",
+    "files.associations": {
+        "cstdlib": "cpp",
+        "cmath": "cpp",
+        "*.tcc": "cpp",
+        "main.h": "c",
+        "led.h": "c",
+        "stm32g070xx.h": "c",
+        "sed1335.h": "c",
+        "ds1822.h": "c"
+    }
+}

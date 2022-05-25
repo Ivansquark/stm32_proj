@@ -1,0 +1,263 @@
+///////////// buildroot options ///////////////////
+
+sudo make linux-menuconfig   - kernel
+    В ядре:
+    File systems --->
+    -*- Native language support --->
+    <*> Codepage 866 (Cyrillic/Russian)
+    <*> Windows CP1251 (Bulgarian, Belarusian)
+    <*> NLS UTF-8
+
+sudo make busybox-menuconfig  - build utility
+    Settings ->
+    [*] Enable locale support (system needs locale for this to work)
+    [*] Support Unicode
+    [ ] Use libc routines for Unicode (else uses internal ones)
+    [*] Check $LC_ALL, $LC_CTYPE and $LANG environment variables
+    (63) Character code to substitute unprintable characters with
+    (0) Range of supported Unicode characters
+    [ ] Allow zero-width Unicode characters on output
+    [*] Allow wide Unicode characters on output
+    [ ] Bidirectional character-aware line input
+    [ ] Make it possible to enter sequences of chars which are not Unicode
+    
+sudo make menuconfig         - settings
+
+
+Toolchain:
+    glibc
+    install glibc utilities
+    copy gconv libraries   - for locales
+System conf:
+    /dev management using devtmpfs + eudev
+    Purge unwanted locales   - UnSelect !!!
+    Enable Native Language Support (NLS)
+    
+Target packages:
+    Debugging...:
+        gdb
+    Development tools:
+        make
+        pkgconf
+    Fonts,...:
+        DejaVu Fonts
+        
+    Graphic...:
+        //mesa3d
+        //Gallium vc4 friver
+        //OpenGL ES
+        //Qt5:
+        //    gui module
+        //    enable eglfs
+    Hardware Handling:        
+        Firmware:
+        //br43...
+    Libraries:
+        Text and terminal handling:
+            icu (UNICODE)    -- for qserialport
+    Network applications:
+        crda
+        hostapd: !!!!!!!!!!!!!!!!!!
+        ifupdownscripts
+        iw
+        iproute2
+        iptables
+        openssh:
+        rsync      !!!!!!!!!!!!!!
+        wirelesregdb
+        wireless-tools
+        wpa_supplicant:
+        
+    Texteditors:
+        nano
+        mc
+Filesystem:
+    Exact size: 1G
+HostUtilities:
+    dosftools
+    genimage
+    mtools
+    uboot-tools
+    
+sudo make -j8    
+    
+    ldd - its just a script =>
+    LD_TRACE_LOADED_OBJECTS=1 /bin/busybox  === the same as ldd
+///////////////////////////////////////////////////////////////////////////
+    
+///////////////// Flash format //////////////////////////////////////////////
+sudo mkfs -t ext4 -L FLASH /dev/sdc
+/////////////////////////////////////////////////////////////////////////////
+    
+//////////////// Disk dump ////////////////////////////////////////////////
+sudo fdisk -l
+sudo dd if=/home/debian/embedded/linux/buildroot/output/images/sdcard.img of=/dev/sdc status=progress
+sudo dd if=/dev/sdc of=/home/debian/embedded/linux/1/pi3_1.img bs=512 count=1000000 status=progress   (512 Mb)
+sudo dd if=/dev/sdc of=/home/debian/embedded/linux/1/pi3_1.img cbs=512000000 status=progress (512 Mb)
+
+sudo dd if=/dev/zero of=/dev/sdc bs=1M count=2048 status=progress     fills zeroes
+//////////////////////////////////////////////////////////////////////////
+
+
+
+///////////// boot ///////////////////////////////
+in /etc/inittab
+    tty1::respawn:-/bin/sh
+in cmdline.txt
+    console tty1 after 115200
+    
+
+//////////////////// wifi /////////////////////////////////////
+
+type: ifconfig -a
+
+wpa_passphrase wireless-net password > /etc/wpa_supplicant.conf
+
+vi /etc/network/interfaces
+i
+
+auto wlan0
+iface wlan0 inet static
+address 193.168.0.200
+netmask 255.255.255.0
+#gateway 193.168.0.1
+#dns-nameservers 8.8.8.8,8.8.4.4
+#wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+
+ESC
+wq (quit with save)
+
+#iwlist scanning
+
+///////////////////////////// connect to wifi (PC)///////////////////////////
+
+sudo wpa_supplicant -B -Dnl80211 -iwlp6s0 -c/etc/wpa_supplicant/wpa_supplicant.conf
+
+#sudo ifconfig wlan0 down
+#sudo iwconfig wlan0 mode managed
+#sudo ifconfig wlan0 192.168.2.2 up
+#iwlist scan
+
+
+wpa_supplicant.conf                                                                        
+# home network; allow all valid ciphers
+    network={
+    ssid="pi"
+    scan_ssid=1
+    key_mgmt=WPA-PSK
+    psk="12345678"
+}
+/////////////////////////////////////////////////////////////////////////
+
+
+
+/////////////////// ifconfig /////////////////////////////////////////
+sudo ifdown -a
+sudo ifup -a
+sudo ifconfig wlp6s0 down
+sudo ifconfig enp3s0 up
+ip addr (IPs)
+route -n
+
+/////////////////////////////////////////////////////////////////////
+
+
+WiFi точка доступа
+apt-get install hostapd
+sudo vi /etc/hostapd/hostapd.conf
+
+interface=wlan0
+driver=nl80211
+ssid=opa
+hw_mode=g
+channel=7
+macaddr_acl=0
+auth_algs=3
+ignore_broadcast_ssid=0
+wpa=2
+wpa_passphrase=AardvarkBadgerHedgehog
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
+rsn_pairwise=CCMP
+
+~/hostapd -B /etc/hostapd.conf
+
+/////////// autostart ///////////////////
+create script as.sh in /etc/init.d
+mv as.sh S55as
+
+#! /bin/sh
+echo "***************************"
+echo "********AUTOSTART**********"
+echo "***************************"
+ifconfig wlan0 up
+hostapd -B /etc/hostapd.conf
+////////////////////////////////////////
+
+sudo systemctl unmask hostapd
+sudo vi /etc/default/hostapd
+DAEMON_CONF="/etc/hostapd/hostapd.conf"
+
+ip addr list | grep wlp3s0
+
+systemctl stop systemd-resolved
+systemctl start hostapd
+systemctl start dnsmasq
+
+////////////////////////// ssh server /////////////////////
+in /etc/ssh/sshd_config
+    PermitRootLogin yes
+    ChallengeResponseAuthentication no
+    
+passwd     
+////////////////////////// ssh client /////////////////////
+ssh-keygen -t rsa
+cat ~/.ssh/id_rsa.pub | ssh root@192.168.0.2 "cat >> /root/.ssh/authorized_keys"
+ ssh root@193.168.0.200  - for check
+/////////////////////////////////////////////////////    
+
+
+
+    
+  
+ 
+//////////////// internet PC//////////////////////////
+https://linux16.ru/notes/komandy-dlya-raboty-s-setyu-v-linux.html
+
+sudo ip addr flush dev wlp6s0
+
+rfkill list all
+sudo rfkill unblock all
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////// qt cross compile ///////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+https://github.com/abhiTronix/raspberry-pi-cross-compilers/blob/master/QT_build_instructions.md
+
+
+mkdir ~/raspberrypi
+cd ~/raspberrypi
+wget https://releases.linaro.org/components/toolchain/binaries/latest-7/arm-linux-gnueabihf/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf.tar.xz
+tar xf gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf.tar.xz
+    
+
+mkdir sysroot sysroot/usr sysroot/opt
+
+rsync -avz pi@193.168.0.101:/lib sysroot
+rsync -avz pi@193.168.0.101:/usr/include sysroot/usr
+rsync -avz pi@193.168.0.101:/usr/lib sysroot/usr
+rsync -avz pi@193.168.0.101:/opt/vc sysroot/opt    - (for raspberry need to download firmware from raspbian OS)
+
+wget https://raw.githubusercontent.com/riscv/riscv-poky/master/scripts/sysroot-relativelinks.py
+chmod +x sysroot-relativelinks.py
+./sysroot-relativelinks.py sysroot
+
+(ONLY QSERIALPORT AND QWEBSOCKETS)
+ sudo ./configure -release -opengl es2  -eglfs -device linux-rasp-pi-g++ -device-option CROSS_COMPILE=~/raspberrypi/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf- -sysroot /home/debian/raspberrypi/sysroot -prefix /usr/local/qt -extprefix ~/raspberrypi/qt -hostprefix ~/raspberrypi/host-qt -opensource -confirm-license -skip qt3d -skip qtactiveqt -skip androidextras -skip qtcharts -skip qtconnectivity -skip qtdatavis3d -skip qtdeclarative -skip qtdoc -skip qtgamepad -skip qtgraphicaleffects -skip qtimageformats -skip qtlocation -skip qtlottie -skip qtmacextras -skip qtmultimedia -skip qtnetworkauth -skip qtpurchasing -skip qtquick3d -skip qtquickcontrols -skip qtquickcontrols2 -skip qtquicktimeline -skip qtremoteobjects -skip qtscript -skip qtscxml -skip qtsensors -skip qtserialbus -skip qtspeech -skip qtsvg -skip qttools -skip qttranslations -skip qtvirtualkeyboard -skip qtwayland -skip qtwebchannel -skip qtwebengine -skip qtwebglplugin -skip qtwebview -skip qtwinextras -skip qtx11extras -skip qtxmlpatterns -nomake tests -make libs -no-pkg-config -no-use-gold-linker -v -recheck
+
+
+sudo make -j8
+sudo make install
+
+cd ~/raspberrypi
+rsync -avz qt root@193.168.0.2:/usr/local
