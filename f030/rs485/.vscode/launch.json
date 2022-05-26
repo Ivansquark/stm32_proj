@@ -12,7 +12,7 @@
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
-            "svdFile": "./lib/STM32F042x.svd", 
+            "svdFile": "./lib/STM32F030.svd", 
             "searchDir": ["/usr/share/openocd/scripts"],           
             "configFiles": 
             [

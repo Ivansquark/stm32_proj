@@ -8,8 +8,8 @@
   *          is using in the C source code, usually in main.c. This file contains:
   *           - Configuration section that allows to select:
   *              - The STM32F0xx device used in the target application
-  *              - To use or not the peripheralï¿½s drivers in application code(i.e. 
-  *                code will be based on direct access to peripheralï¿½s registers 
+  *              - To use or not the peripheral’s drivers in application code(i.e. 
+  *                code will be based on direct access to peripheral’s registers 
   *                rather than drivers API), this option is controlled by 
   *                "#define USE_HAL_DRIVER"
   *  
@@ -59,8 +59,8 @@
   * - IRQ channel definition
   * - Peripheral memory mapping and physical registers address definition
   * - Peripheral pointer declaration and driver header file inclusion
-  * - Product miscellaneous configuration: assert macrosï¿½
-  * Note: These CMSIS drivers (stm32f0xxxx.h) are always supporting features of the sub-familyï¿½s superset.
+  * - Product miscellaneous configuration: assert macros…
+  * Note: These CMSIS drivers (stm32f0xxxx.h) are always supporting features of the sub-family’s superset.
   */
 
 #if !defined (STM32F030x6) && !defined (STM32F030x8) &&                           \
@@ -69,11 +69,12 @@
     !defined (STM32F051x8) && !defined (STM32F058xx) &&                           \
     !defined (STM32F071xB) && !defined (STM32F072xB) && !defined (STM32F078xx) && !defined (STM32F070xB) && \
     !defined (STM32F091xC) && !defined (STM32F098xx) && !defined (STM32F030xC)
-  /* #define STM32F030x6 */  /*!< STM32F030x4, STM32F030x6 Devices (STM32F030xx microcontrollers where the Flash memory ranges between 16 and 32 Kbytes)              */
+   
+#define STM32F030x6   /*!< STM32F030x4, STM32F030x6 Devices (STM32F030xx microcontrollers where the Flash memory ranges between 16 and 32 Kbytes)              */
   /* #define STM32F030x8 */  /*!< STM32F030x8 Devices (STM32F030xx microcontrollers where the Flash memory is 64 Kbytes)                                              */
   /* #define STM32F031x6 */  /*!< STM32F031x4, STM32F031x6 Devices (STM32F031xx microcontrollers where the Flash memory ranges between 16 and 32 Kbytes)              */
   /* #define STM32F038xx */  /*!< STM32F038xx Devices (STM32F038xx microcontrollers where the Flash memory is 32 Kbytes)                                              */
-   #define STM32F042x6   /*!< STM32F042x4, STM32F042x6 Devices (STM32F042xx microcontrollers where the Flash memory ranges between 16 and 32 Kbytes)              */
+  /* #define STM32F042x6 */  /*!< STM32F042x4, STM32F042x6 Devices (STM32F042xx microcontrollers where the Flash memory ranges between 16 and 32 Kbytes)              */
   /* #define STM32F048xx */  /*!< STM32F048xx Devices (STM32F048xx microcontrollers where the Flash memory is 32 Kbytes)                                              */
   /* #define STM32F051x8 */  /*!< STM32F051x4, STM32F051x6, STM32F051x8 Devices (STM32F051xx microcontrollers where the Flash memory ranges between 16 and 64 Kbytes) */
   /* #define STM32F058xx */  /*!< STM32F058xx Devices (STM32F058xx microcontrollers where the Flash memory is 64 Kbytes)                                              */

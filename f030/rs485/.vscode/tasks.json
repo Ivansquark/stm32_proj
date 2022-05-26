@@ -26,6 +26,14 @@
             "args": [],
             "group": "build",
             "problemMatcher": []
+        },
+        {
+            "label": "erase",
+            "type": "shell",
+            "command": "make erase",
+            "args": [],
+            "group": "build",
+            "problemMatcher": []
         }
     ]
 }

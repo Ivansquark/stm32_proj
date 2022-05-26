@@ -1,6 +1,15 @@
-.PHONY: all clean load 
-#_________________________ GCC compilator commands _______________________________________________		
-CC = arm-none-eabi-gcc
+# Compiler:
+# arm-none-eabi-gcc --version: === 8.3.1 20190703
+# Open On-Chip Debugger:	
+# openocd --version === Open On-Chip Debugger 0.11.0 (2021-10-07-10:32)
+# System debugger:
+# gdb-multiarch --version:	===	GNU gdb 10.1.90.20210103
+.PHONY: all, clean, load, erase
+
+#_________________________________________________________________________________________________
+#_________________________ GCC compilator commands _______________________________________________	
+#_________________________________________________________________________________________________	
+CC = arm-none-eabi-g++
 OBJC = arm-none-eabi-objcopy
 OBJD = arm-none-eabi-objdump
 AS = arm-none-eabi-as
@@ -10,55 +19,71 @@ INC = inc/
 LIB = lib/
 BLD = build/
 SRC = src/
-halSRC = HAL/src/
-halINC = HAL/inc/
 
-CPPFLAGS = -c -Wall -g -O0 --specs=nosys.specs -specs=nano.specs \
-	   -nostdlib -nostartfiles -fno-common -D"assert_param(x)=" \
-	   -mcpu=cortex-m0 -mthumb -march=armv6-m -fno-exceptions \
-	   -Wno-pointer-arith -fno-rtti -mfloat-abi=soft \
-	   -fno-math-errno -fno-unwind-tables \
-	   -ffunction-sections -Xlinker -Map=$(BLD)main.map
-# -u_printf_float
-LFLAGS = -mcpu=cortex-m0 -mthumb -nostdlib -nostartfiles -lm -lc -lgcc -lnosys \
-		 -specs=nano.specs -specs=nosys.specs -fno-exceptions -fno-rtti \
-		 -mfloat-abi=soft -fno-unwind-tables \
-		 -L"C:\SysGCC\arm-eabi\lib\gcc\arm-none-eabi\9.3.1\thumb\v6-m\nofp" \
-		 -L"C:\SysGCC\arm-eabi\arm-none-eabi\lib\thumb\v6-m\nofp" \
-		 -Xlinker -Map=$(BLD)main.map #-u_printf_float
-		#для FPU
-		
-load:	$(BLD)main.bin
-	openocd -f lib/cmsis-dap.cfg -f lib/stm32f0x.cfg -c "program $(BLD)main.bin \
-	verify exit reset 0x08000000"
+CPPFLAGS = -std=c++17 -mthumb -mcpu=cortex-m0 -c -g3 -O2 -Wall \
+	 -fno-exceptions -fno-rtti \
+	-fno-math-errno -ffunction-sections -fdata-sections \
+	--specs=nosys.specs --specs=nano.specs -fno-common -D"assert_param(x)="	
+#-mfloat-abi=soft -u_printf_float -fpic
+
+LCPPFLAGS = -std=c++17 -mcpu=cortex-m0 -march=armv7 -mthumb -nostartfiles \
+		 -mfloat-abi=soft -specs=nosys.specs -specs=nano.specs \
+		 -fno-use-cxa-atexit -Xlinker -Map=$(BLD)main.map -Xlinker --gc-sections #-Xlinker -EL 		 
+#-z muldefs  -u_printf_float -pie
+
 	
-all:	$(BLD)main.bin $(BLD)main.lst $(BLD)main.elf
-#___________________ BIN & HEX ____________________________
+all: $(BLD)main.bin $(BLD)main.elf $(BLD)main.lst
+
 $(BLD)main.bin: $(BLD)main.elf
-	arm-none-eabi-objcopy $(BLD)main.elf $(BLD)main.bin -O binary
-	arm-none-eabi-objcopy $(BLD)main.elf $(BLD)main.hex -O ihex 
+	$(OBJC) $(BLD)main.elf $(BLD)main.bin -O binary
+
 $(BLD)main.lst: $(BLD)main.elf
-	arm-none-eabi-objdump -D $(BLD)main.elf > $(BLD)main.lst
-#___________________ LINKER _________________________________
-$(BLD)main.elf: $(BLD)main.o $(BLD)startup.o $(BLD)uart.o
-	$(CC) -o $(BLD)main.elf -T$(LIB)stm32f042.ld $(BLD)startup.o \
-	$(BLD)main.o $(BLD)uart.o \
-	$(LFLAGS)
+	$(OBJD) -D $(BLD)main.elf > $(BLD)main.lst
+
+#------------------------------------  LINKER -------------------------------------------------------------------------
+
+$(BLD)main.elf: $(BLD)startup.o	
+$(BLD)main.elf:	$(BLD)main.o	$(BLD)rs485.o	$(BLD)leds.o	$(BLD)modbus.o 	
+$(BLD)main.elf:	$(BLD)flash.o	$(BLD)motor.o	$(BLD)timer.o		 	
+	$(CC) -o $@ -T$(LIB)stm32f030.ld $^ -I$(LIB) $(LCPPFLAGS)
+#    $@ — target name
+#    $< — first dependancy name
+#    $? — all dependancies names, thats newer than target
+#    $^ — all dependencies names of the target
+#	 %	- template for all files
+
+#-------------------------------------- HEX -------------------------------------------------------	
+	arm-none-eabi-objcopy -j .text -j .data -j .bss -O ihex $(BLD)main.elf $(BLD)main.hex  
+	@echo "*******************************************************"
+	@echo "*******************   SIZE   **************************"
+	@echo "*******************************************************"
 	arm-none-eabi-size $(BLD)main.elf
+	@echo "*******************************************************"
 
-#__________________________________________________________________
-#_________________________ BUILD __________________________________	
-#__________________________________________________________________
-
-#_________________________ system _______________________________
+#______________________________________________________________________________________________
+#______________________ SYSTEM FUNCTIONS_______________________________________________________
+#______________________________________________________________________________________________
 $(BLD)startup.o: $(LIB)startup.cpp
 	$(CC) $(LIB)startup.cpp -o $(BLD)startup.o $(CPPFLAGS)
-    #arm-none-eabi-objdump $(BLD)startup.o -h
-#________________________ functions _________________________
-$(BLD)main.o: $(SRC)main.cpp 
-	$(CC)  $(SRC)main.cpp -o $(BLD)main.o -I$(INC) -I$(LIB) -I$(halINC) $(CPPFLAGS)
-#arm-none-eabi-objdump main.o -h 				
-$(BLD)uart.o: $(SRC)uart.cpp 
-	$(CC)  $(SRC)uart.cpp -o $(BLD)uart.o -I$(INC) -I$(LIB) -I$(halINC) $(CPPFLAGS)
+#$(BLD)system_stm32f0xx.o: $(LIB)system_stm32f0xx.cpp
+#	$(CC) $(LIB)system_stm32f0xx.cpp -o $(BLD)system_stm32f0xx.o $(CPPFLAGS)	
+
+#_________________________________________________________________________________________________
+#_________________________ Basic functions _______________________________________________________	
+#_________________________________________________________________________________________________
+
+$(BLD)%.o: $(SRC)%.cpp
+	@ # **** mutex for parallel execution (mkdir must be locked) ****
+	@if mkdir /var/lock/.myscript.exclusivelock; \
+	then if [ ! -d "$(BLD)" ]; then mkdir $(BLD); fi; \
+	rmdir /var/lock/.myscript.exclusivelock; \
+	fi
+	$(CC) -c $< -o $@ -I$(INC) -I$(LIB) $(CPPFLAGS)
 clean:
-	rm -rf $(BLD)*.o $(BLD)*.elf $(BLD)*.lst $(BLD)*.bin $(BLD)*.hex $(BLD)*.map
+	rm -rf build 
+	
+load: $(BLD)main.bin
+	openocd -f lib/stlink.cfg -f lib/stm32f0x.cfg -c "init" -c "halt" -c "wait_halt" -c "program $(BLD)main.bin verify reset exit 0x08000000"
+
+erase:
+	openocd -f lib/stlink.cfg -f lib/stm32f0x.cfg -c "init" -c "halt" -c "wait_halt" -c "stm32f0x mass_erase 0" -c "exit"

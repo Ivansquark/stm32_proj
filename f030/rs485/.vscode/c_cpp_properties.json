@@ -7,12 +7,11 @@
             "includePath": 
             [
                 "${workspaceRoot}/inc/",
-                "${workspaceRoot}/lib/",
-                "${workspaceRoot}/HAL/inc"                    
+                "${workspaceRoot}/lib/"
             ],
             "defines":
             [
-                "STM32f042xx"
+                "STM32f030xx"
             ],
             "cStandard": "c11",
             "cppStandard": "c++17",
