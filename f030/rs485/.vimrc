@@ -160,10 +160,10 @@ let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
-let g:airline_symbols.colnr = ''
+let g:airline_symbols.colnr = ' '
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ' '
-let g:airline_symbols.maxlinenr = ''
+let g:airline_symbols.maxlinenr = ' '
 let g:airline_symbols.dirty='⚡'
 "---------    C++ syntax highlight  ------------------
 let g:cpp_class_scope_highlight = 1
