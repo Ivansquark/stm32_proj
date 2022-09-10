@@ -9,13 +9,7 @@
                 "${workspaceRoot}/inc/",
                 "${workspaceRoot}/hal/inc/",
                 "${workspaceRoot}/hal/inc/Legacy/",
-                "${workspaceRoot}/usb/inc/",
-                "${workspaceRoot}/ffs/inc/",
-                "${workspaceRoot}/lib/",
-                "${workspaceRoot}/lwip/src/include",
-                "${workspaceRoot}/lwip/system",
-                "${workspaceRoot}/lwip/inc",
-                "${workspaceRoot}/MRT_proto/inc"               
+                "${workspaceRoot}/lib/"                
             ],
             "defines":
             [
