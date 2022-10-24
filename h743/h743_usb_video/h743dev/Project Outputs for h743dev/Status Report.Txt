@@ -1,0 +1,14 @@
+Project Outputs Generation Report
+---------------------------------
+Start Output Generation At 20:38:47 On 28.10.2020
+
+Output: Bill of Materials
+Type  : BOM
+From  : Project [h743dev.PrjPcb]
+   Generated File[Bill of Materials-h743dev.xls]
+
+
+Files Generated   : 1
+Documents Printed : 0
+
+Finished Output Generation At 20:39:24 On 28.10.2020

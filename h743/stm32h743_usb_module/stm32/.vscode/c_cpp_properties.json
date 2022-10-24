@@ -1,0 +1,25 @@
+{
+    "configurations": 
+    [
+        {
+            "name": "h7_c_cpp_properties",
+            "compilerPath": "/usr/bin/arm-none-eabi-gcc",
+            "includePath": 
+            [
+                "${workspaceRoot}/inc/",
+                "${workspaceRoot}/hal/inc/",
+                "${workspaceRoot}/hal/inc/Legacy/",
+                "${workspaceRoot}/usb/inc/",
+                "${workspaceRoot}/lib/"                    
+            ],
+            "defines":
+            [
+                "STM32H743xx"
+            ],
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}
