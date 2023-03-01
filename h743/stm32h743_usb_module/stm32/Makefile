@@ -116,9 +116,11 @@ clean:
 	rm -rf build 
 	
 load:	$(BLD)main.bin
-	openocd -f lib/stlink.cfg -f lib/stm32h7x.cfg -c "program $(BLD)main.bin \
-		verify reset exit 0x08000000"
+	openocd -s /usr/local/share/openocd/scripts \
+	-f lib/stlink.cfg -f lib/stm32h7x.cfg -c "program $(BLD)main.bin \
+	verify reset exit 0x08000000"
 
 erase:
-	openocd -f lib/stlink.cfg -f lib/stm32h7x.cfg -c "init" -c "halt" -c \
-		"wait_halt" -c "stm32f4x mass_erase 0" -c "exit"
+	openocd -s /usr/local/share/openocd/scripts \
+	-f lib/stlink.cfg -f lib/stm32h7x.cfg -c "init" -c "halt" -c \
+	"wait_halt" -c "stm32f4x mass_erase 0" -c "exit"
