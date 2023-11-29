@@ -1,0 +1,23 @@
+{
+    "configurations": 
+    [
+        {
+            "name": "f0_c_cpp_properties",
+            "compilerPath": "/bin/arm-none-eabi-gcc",
+            "includePath": 
+            [
+                "${workspaceRoot}/inc/",
+                "${workspaceRoot}/lib/",
+                "${workspaceRoot}/HAL/inc"                    
+            ],
+            "defines":
+            [
+                "STM32f042xx"
+            ],
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}
