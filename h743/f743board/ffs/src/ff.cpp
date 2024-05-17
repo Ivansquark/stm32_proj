@@ -4415,7 +4415,7 @@ FRESULT f_getcwd (
 
 
 
-#if FF_FS_MINIMIZE <= 2
+//#if FF_FS_MINIMIZE <= 2
 /*-----------------------------------------------------------------------*/
 /* Seek File Read/Write Pointer                                          */
 /*-----------------------------------------------------------------------*/
@@ -5221,7 +5221,7 @@ FRESULT f_rename (
 #endif /* !FF_FS_READONLY */
 #endif /* FF_FS_MINIMIZE == 0 */
 #endif /* FF_FS_MINIMIZE <= 1 */
-#endif /* FF_FS_MINIMIZE <= 2 */
+//#endif /* FF_FS_MINIMIZE <= 2 */
 
 
 

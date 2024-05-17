@@ -49,7 +49,7 @@ LCPPFLAGS = -mcpu=cortex-m7 -march=armv7e-m -mthumb -g -nostartfiles -lm -lc -ls
 		 #-z muldefs  -u_printf_float 
 
 load: $(BLD)main.bin
-	openocd -f lib/stlink.cfg -f lib/stm32h7x.cfg -c "program $(BLD)main.bin verify reset exit 0x08000000"
+	openocd -f lib/stlink.cfg -f lib/stm32h7x.cfg -s /usr/share/openocd/scripts -c "program $(BLD)main.bin verify reset exit 0x08000000"
 	
 all: $(BLD)main.bin $(BLD)main.elf $(BLD)main.lst
 $(BLD)main.bin: $(BLD)main.elf

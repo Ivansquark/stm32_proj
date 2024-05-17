@@ -1,0 +1,254 @@
+
+Discarded input sections
+
+ .data          0x00000000        0x0 build/c/src/delay.o
+ .bss           0x00000000        0x0 build/c/src/delay.o
+ .text          0x00000000        0x0 build/lib/startup.o
+ .data          0x00000000        0x0 build/lib/startup.o
+ .bss           0x00000000        0x0 build/lib/startup.o
+ .text._Z5_initv
+                0x00000000        0xa build/lib/startup.o
+ .text._Z5_finiv
+                0x00000000        0xa build/lib/startup.o
+ .text._Z17__libc_init_arrayv
+                0x00000000       0x74 build/lib/startup.o
+ .text._Z17__libc_fini_arrayv
+                0x00000000       0x44 build/lib/startup.o
+ .text          0x00000000        0x0 build/src/main.o
+ .data          0x00000000        0x0 build/src/main.o
+ .bss           0x00000000        0x0 build/src/main.o
+ .rodata        0x00000000       0x10 build/src/main.o
+ .text._Z3sunv  0x00000000        0xc build/src/main.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+RAM              0x20000000         0x00002000         xrw
+ROM              0x08000000         0x00008000         xr
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD build/c/src/delay.o
+LOAD build/lib/startup.o
+LOAD build/src/main.o
+LOAD /usr/lib/gcc/arm-none-eabi/13.2.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libm.a
+START GROUP
+LOAD /usr/lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp/libgcc.a
+LOAD /usr/lib/gcc/arm-none-eabi/13.2.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a
+END GROUP
+START GROUP
+LOAD /usr/lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp/libgcc.a
+LOAD /usr/lib/gcc/arm-none-eabi/13.2.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a
+LOAD /usr/lib/gcc/arm-none-eabi/13.2.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libnosys.a
+END GROUP
+START GROUP
+LOAD /usr/lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp/libgcc.a
+LOAD /usr/lib/gcc/arm-none-eabi/13.2.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a
+LOAD /usr/lib/gcc/arm-none-eabi/13.2.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libnosys.a
+END GROUP
+                0x00000100                        _Min_Heap_Size = 0x100
+                0x00000100                        _Min_Stack_Size = 0x100
+
+.isr_vectors    0x08000000       0xbc
+                0x08000000                        . = ALIGN (0x4)
+ *(.isr_vectors)
+ .isr_vectors   0x08000000       0xbc build/lib/startup.o
+                0x08000000                vectors
+ *(.isr_vectors)
+                0x080000bc                        . = ALIGN (0x4)
+
+.text           0x080000bc       0xa4
+                0x080000bc                        . = ALIGN (0x4)
+ *(.text)
+ .text          0x080000bc       0x1e build/c/src/delay.o
+                0x080000bc                delay
+ *(.text*)
+ *fill*         0x080000da        0x2 
+ .text.Reset_Handler
+                0x080000dc       0x44 build/lib/startup.o
+                0x080000dc                Reset_Handler
+ .text.Default_Handler
+                0x08000120        0x8 build/lib/startup.o
+                0x08000120                TIM1_CC_IRQHandler
+                0x08000120                SysTick_Handler
+                0x08000120                PVD_IRQHandler
+                0x08000120                PendSV_Handler
+                0x08000120                I2C1_IRQHandler
+                0x08000120                LPTIM2_IRQHandler
+                0x08000120                RTC_TAMP_IRQHandler
+                0x08000120                SPI1_IRQHandler
+                0x08000120                DMA1_Ch4_5_DMAMUX1_OVR_IRQHandler
+                0x08000120                EXTI2_3_IRQHandler
+                0x08000120                ADC1_IRQHandler
+                0x08000120                I2C2_IRQHandler
+                0x08000120                TIM17_IRQHandler
+                0x08000120                TIM16_IRQHandler
+                0x08000120                TIM3_IRQHandler
+                0x08000120                EXTI4_15_IRQHandler
+                0x08000120                RCC_IRQHandler
+                0x08000120                DMA1_Channel1_IRQHandler
+                0x08000120                Default_Handler
+                0x08000120                TIM14_IRQHandler
+                0x08000120                EXTI0_1_IRQHandler
+                0x08000120                SPI2_IRQHandler
+                0x08000120                SVC_Handler
+                0x08000120                WWDG_IRQHandler
+                0x08000120                LPUART1_IRQHandler
+                0x08000120                TIM2_IRQHandler
+                0x08000120                DMA1_Channel2_3_IRQHandler
+                0x08000120                USART2_IRQHandler
+                0x08000120                FLASH_IRQHandler
+                0x08000120                USART1_IRQHandler
+                0x08000120                TIM1_BRK_UP_TRG_COM_IRQHandler
+                0x08000120                LPTIM1_IRQHandler
+ .text.NMI_Handler
+                0x08000128        0x8 build/lib/startup.o
+                0x08000128                NMI_Handler
+ .text.HardFault_Handler
+                0x08000130       0x20 build/lib/startup.o
+                0x08000130                HardFault_Handler
+ .text.main     0x08000150        0xe build/src/main.o
+                0x08000150                main
+                0x08000160                        . = ALIGN (0x4)
+ *fill*         0x0800015e        0x2 
+
+.vfp11_veneer   0x08000160        0x0
+ .vfp11_veneer  0x08000160        0x0 linker stubs
+
+.v4_bx          0x08000160        0x0
+ .v4_bx         0x08000160        0x0 linker stubs
+
+.iplt           0x08000160        0x0
+ .iplt          0x08000160        0x0 build/lib/startup.o
+
+.rodata         0x08000160        0x0
+                0x08000160                        . = ALIGN (0x4)
+ *(.rodata)
+ *(.rodata*)
+ *(vtable)
+ *(.glue_7)
+ .glue_7        0x08000160        0x0 linker stubs
+ *(.glue_7t)
+ .glue_7t       0x08000160        0x0 linker stubs
+                0x08000160                        . = ALIGN (0x4)
+ *(.init)
+ *(.fini)
+                0x08000160                        . = ALIGN (0x4)
+                0x08000160                        _etext = .
+
+.rel.dyn        0x08000160        0x0
+ .rel.iplt      0x08000160        0x0 build/lib/startup.o
+
+.inits          0x08000160        0x0
+                0x08000160                        . = ALIGN (0x4)
+                0x08000160                        PROVIDE (__preinit_array_start = .)
+                0x08000160                        PROVIDE (__init_array_start = .)
+ *(SORT_BY_NAME(.init_array.*))
+ *(.init_array)
+                0x08000160                        PROVIDE (__init_array_end = .)
+                0x08000160                        PROVIDE (__fini_array_start = .)
+ *(SORT_BY_NAME(.fini_array.*))
+ *(.fini_array)
+                0x08000160                        PROVIDE (__fini_array_end = .)
+                0x08000160                        . = ALIGN (0x4)
+                0x08000160                        _sidata = LOADADDR (.data)
+                0x08000160                        . = ALIGN (0x8)
+
+.stack          0x20000000      0x100
+                0x20000000                        . = ALIGN (0x8)
+                0x20000000                        _stack_begin = .
+                0x20000100                        _StackLimit = (_stack_begin + _Min_Stack_Size)
+                0x20000100                        . = (. + _Min_Stack_Size)
+ *fill*         0x20000000      0x100 
+                0x20000100                        _StackTop = .
+                0x20000100                        . = ALIGN (0x8)
+                0x20000100                        PROVIDE (_estack = _StackTop)
+
+.data           0x20000100        0x0 load address 0x08000160
+                0x20000100                        . = ALIGN (0x4)
+                0x20000100                        _sdata = .
+ *(.data)
+ *(.data*)
+                0x20000100                        _edata = .
+
+.igot.plt       0x20000100        0x0 load address 0x08000160
+ .igot.plt      0x20000100        0x0 build/lib/startup.o
+                0x20000100                        . = ALIGN (0x4)
+
+.bss            0x20000100        0x0 load address 0x08000160
+                0x20000100                        _sbss = .
+                0x20000100                        __bss_start__ = _sbss
+ *(.bss)
+ *(.bss*)
+ *(COMMON)
+                0x20000100                        . = ALIGN (0x4)
+                0x20000100                        _ebss = .
+                0x20000100                        __bss_end__ = _ebss
+
+.heap           0x20000100      0x100 load address 0x08000160
+                0x20000100                        . = ALIGN (0x4)
+                0x20000100                        _heap_start = __bss_end__
+                [!provide]                        PROVIDE (end = .)
+                0x20000200                        _heap_limit = (_heap_start + _Min_Heap_Size)
+                0x20000200                        . = (. + _Min_Heap_Size)
+ *fill*         0x20000100      0x100 
+                [!provide]                        PROVIDE (_heap_end = .)
+OUTPUT(build/main.elf elf32-littlearm)
+LOAD linker stubs
+
+.debug_info     0x00000000     0x18a2
+ .debug_info    0x00000000       0x9e build/c/src/delay.o
+ .debug_info    0x0000009e      0x20d build/lib/startup.o
+ .debug_info    0x000002ab     0x15f7 build/src/main.o
+
+.debug_abbrev   0x00000000      0x32e
+ .debug_abbrev  0x00000000       0x6a build/c/src/delay.o
+ .debug_abbrev  0x0000006a      0x143 build/lib/startup.o
+ .debug_abbrev  0x000001ad      0x181 build/src/main.o
+
+.debug_aranges  0x00000000       0xa0
+ .debug_aranges
+                0x00000000       0x20 build/c/src/delay.o
+ .debug_aranges
+                0x00000020       0x58 build/lib/startup.o
+ .debug_aranges
+                0x00000078       0x28 build/src/main.o
+
+.debug_line     0x00000000      0x3dd
+ .debug_line    0x00000000       0x87 build/c/src/delay.o
+ .debug_line    0x00000087      0x18f build/lib/startup.o
+ .debug_line    0x00000216      0x1c7 build/src/main.o
+
+.debug_str      0x00000000      0xd89
+ .debug_str     0x00000000      0xd89 build/c/src/delay.o
+                                0x147 (size before relaxing)
+ .debug_str     0x00000d89      0x279 build/lib/startup.o
+ .debug_str     0x00000d89      0xc0d build/src/main.o
+
+.comment        0x00000000       0x26
+ .comment       0x00000000       0x26 build/c/src/delay.o
+                                 0x27 (size before relaxing)
+ .comment       0x00000026       0x27 build/lib/startup.o
+ .comment       0x00000026       0x27 build/src/main.o
+
+.ARM.attributes
+                0x00000000       0x2c
+ .ARM.attributes
+                0x00000000       0x2c build/c/src/delay.o
+ .ARM.attributes
+                0x0000002c       0x28 build/lib/startup.o
+ .ARM.attributes
+                0x00000054       0x28 build/src/main.o
+
+.debug_frame    0x00000000      0x168
+ .debug_frame   0x00000000       0x30 build/c/src/delay.o
+ .debug_frame   0x00000030       0xf0 build/lib/startup.o
+ .debug_frame   0x00000120       0x48 build/src/main.o
+
+.debug_rnglists
+                0x00000000       0x56
+ .debug_rnglists
+                0x00000000       0x3d build/lib/startup.o
+ .debug_rnglists
+                0x0000003d       0x19 build/src/main.o

@@ -1,0 +1,24 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "openocd",
+            "cwd": "${workspaceRoot}",
+            "executable": "./build/main.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "gdbPath": "/bin/gdb-multiarch",
+            "svdFile": "./lib/STM32G031.svd",
+            "searchDir": ["/usr/share/openocd/scripts"],
+            "configFiles": 
+            [
+                "./lib/stlink.cfg",
+                "./lib/stm32g0x.cfg"
+            ]
+        }
+    ]
+}

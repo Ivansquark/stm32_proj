@@ -60,7 +60,7 @@ int main()
 	srand (x);
 	is_USB = false;
 //--------------- objects initializations (without irq) ----------------
-	Rtc rtc;		
+	//Rtc rtc;		
 	Buzzer buzz;
 	//Independed_WatchDog watchDog(0x4FF);
 	GP_Timers tim2(2,GP_Timers::Period::ms);
@@ -128,8 +128,8 @@ int main()
 
 	font24.fat_init();
 	font24.setColors(fig.CYAN,fig.BLACK);
-	font24.drawString(0,240,"Съешь ещё этих французских");
-	font24.drawString(0,264,"булок и выпей чаю");
+	font24.drawString(0,240,"пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
+	font24.drawString(0,264,"пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ");
 	font24.setColors(fig.CYAN,fig.BLACK);
 	font24.drawSymbol(770,0,0x7f);
 	uint32_t z = 0;
@@ -183,24 +183,24 @@ int main()
 		}
 		//watchDog.refreshCounter(); // resets in counter
 // show time:		
-		rtc.getTime();
-		font1_28x30.drawIntValue(500,0,font1_28x30.intToChar(rtc.currentTime.hour/10),1);
-		font1_28x30.drawIntValue(528,0,font1_28x30.intToChar(rtc.currentTime.hour%10),1);
-		font1_28x30.drawSymbol(554,0,':');
-		font1_28x30.drawIntValue(582,0,font1_28x30.intToChar(rtc.currentTime.minute/10),1);
-		font1_28x30.drawIntValue(610,0,font1_28x30.intToChar(rtc.currentTime.minute%10),1);
-		font1_28x30.drawSymbol(638,0,':');
-		font1_28x30.drawIntValue(666,0,font1_28x30.intToChar(rtc.currentTime.second/10),1);
-		font1_28x30.drawIntValue(694,0,font1_28x30.intToChar(rtc.currentTime.second%10),1);
-		rtc.getDate();
-		font1_28x30.drawIntValue(500,40,font1_28x30.intToChar(rtc.currentDate.day/10),1);
-		font1_28x30.drawIntValue(528,40,font1_28x30.intToChar(rtc.currentDate.day%10),1);
-		font1_28x30.drawSymbol(554,40,'.');
-		font1_28x30.drawIntValue(582,40,font1_28x30.intToChar(rtc.currentDate.month/10),1);
-		font1_28x30.drawIntValue(610,40,font1_28x30.intToChar(rtc.currentDate.month%10),1);
-		font1_28x30.drawSymbol(638,40,'.');
-		font1_28x30.drawIntValue(666,40,font1_28x30.intToChar(rtc.currentDate.year/10),1);
-		font1_28x30.drawIntValue(694,40,font1_28x30.intToChar(rtc.currentDate.year%10),1);
+		//rtc.getTime();
+		//font1_28x30.drawIntValue(500,0,font1_28x30.intToChar(rtc.currentTime.hour/10),1);
+		//font1_28x30.drawIntValue(528,0,font1_28x30.intToChar(rtc.currentTime.hour%10),1);
+		//font1_28x30.drawSymbol(554,0,':');
+		//font1_28x30.drawIntValue(582,0,font1_28x30.intToChar(rtc.currentTime.minute/10),1);
+		//font1_28x30.drawIntValue(610,0,font1_28x30.intToChar(rtc.currentTime.minute%10),1);
+		//font1_28x30.drawSymbol(638,0,':');
+		//font1_28x30.drawIntValue(666,0,font1_28x30.intToChar(rtc.currentTime.second/10),1);
+		//font1_28x30.drawIntValue(694,0,font1_28x30.intToChar(rtc.currentTime.second%10),1);
+		//rtc.getDate();
+		//font1_28x30.drawIntValue(500,40,font1_28x30.intToChar(rtc.currentDate.day/10),1);
+		//font1_28x30.drawIntValue(528,40,font1_28x30.intToChar(rtc.currentDate.day%10),1);
+		//font1_28x30.drawSymbol(554,40,'.');
+		//font1_28x30.drawIntValue(582,40,font1_28x30.intToChar(rtc.currentDate.month/10),1);
+		//font1_28x30.drawIntValue(610,40,font1_28x30.intToChar(rtc.currentDate.month%10),1);
+		//font1_28x30.drawSymbol(638,40,'.');
+		//font1_28x30.drawIntValue(666,40,font1_28x30.intToChar(rtc.currentDate.year/10),1);
+		//font1_28x30.drawIntValue(694,40,font1_28x30.intToChar(rtc.currentDate.year%10),1);
 	}
     return 0;
 }
