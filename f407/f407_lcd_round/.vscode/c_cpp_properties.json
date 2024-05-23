@@ -1,0 +1,22 @@
+{
+    "configurations": 
+    [
+        {
+            "name": "f407_lcd_round",
+            "compilerPath": "/bin/arm-none-eabi-gcc",
+            "includePath": 
+            [
+                "./inc/",
+                "./lib/"                    
+            ],
+            "defines":
+            [
+                "STM32F407xx"
+            ],
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}
