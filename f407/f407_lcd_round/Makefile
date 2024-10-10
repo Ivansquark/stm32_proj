@@ -44,7 +44,7 @@ LFLAGS = -mcpu=cortex-m0 -mthumb -nostartfiles -lm \
 #для FPU
 #___________________ OBJECTS & DEPENDENCIES ____________________________
 CXXSRC = $(LIB)startup.cpp $(SRC)main.cpp $(SRC)sd_spi.cpp \
-	$(SRC)rcc.cpp $(SRC)GC9A01.cpp 
+	$(SRC)rcc.cpp $(SRC)GC9A01.cpp $(SRC)pwm.cpp 
 CXXOBJ := $(addprefix $(BLD),$(CXXSRC:.cpp=.o))
 DEPS_CXX = $(CXXOBJ:.o=.d)
 CSRC = 

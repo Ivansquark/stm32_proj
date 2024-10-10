@@ -1,6 +1,7 @@
 #include "main.h"
 #include "math.h"
 #include "GC9A01.h"
+#include "pwm.h"
 
 #define LED_ON ((GPIOD->ODR) &= ~GPIO_ODR_ODR_7)
 #define LED_OFF ((GPIOD->ODR) |= GPIO_ODR_ODR_7)
@@ -19,6 +20,8 @@ int main()
     GC9A01_init();
     struct GC9A01_frame frame = {{0,0},{239,239}};
     GC9A01_set_frame(frame);
+    Pwm pwm;
+    pwm.pwm_start();
     while (1)
     {
         uint8_t color[3];
